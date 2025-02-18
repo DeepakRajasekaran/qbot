@@ -1,0 +1,24 @@
+# Robot Parameters
+
+base_link_mass: 2.0 # Revisit alater
+base_width: 0.15
+base_len: 0.2
+base_height: 0.130
+base_link_offset: 0.0
+base_wheel_gap_z: 0.06
+base_collision: false
+
+wheel_mass: 3.5
+wheel_radius: 0.08
+wheel_thickness: 0.04
+wheel_seperation: 0.44
+
+caster_wheel_mass: 0.25
+caster_wheel_radius: 0.04
+caster_wheel_seperation: 0.42
+caster_wheel_offset_front: 0.4
+caster_wheel_offset_rear: -0.4 #Must be -ve if behind base_link
+
+
+lidar_box_mass: 0.050
+lidar_box_size: 0.05

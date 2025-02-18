@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<robot name="qbot" xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <link name="base_footprint"/>
+
+    <link name="base_link">
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <visual>
+            <geometry>
+                <mesh filename="package://qbot_description/meshes/qbot_base.stl"/>
+            </geometry>
+            <material name="gray"/>            
+        </visual>
+        
+    </link>
+
+    <joint name="footprint_to_body" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <parent link="base_footprint"/>
+        <child link="base_link"/>   
+    </joint>
+
+</robot>
