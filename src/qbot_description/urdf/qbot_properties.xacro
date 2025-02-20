@@ -22,6 +22,6 @@
     <xacro:property name="caster_wheel_mass"      value="${props['caster_wheel_mass']}"/>
     <xacro:property name="caster_wheel_radius"    value="${props['caster_wheel_radius']}"/>
     <xacro:property name="caster_offset_z"        value="${props['caster_offset_z']}"/>
-    <xacro:property name="caster_offset_y"        value="${props['caster_offset_y']}"/>
+    <xacro:property name="caster_offset_x"        value="${props['caster_offset_x']}"/>
 
 </robot>
