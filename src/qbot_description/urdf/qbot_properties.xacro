@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    
+    <!-- YAML Import -->
+    <xacro:property name="yaml_file" value="$(find qbot_description)/config/qbotProperties.yaml"/>
+    <xacro:property name="props"     value="${xacro.load_yaml(yaml_file)}"/>
+
+    <!-- Model Properties -->
+
+    <xacro:property name="base_length"            value="${props['base_length']}"/>
+    <xacro:property name="base_width"             value="${props['base_width']}"/>
+    <xacro:property name="base_height"            value="${props['base_height']}"/>
+    <xacro:property name="base_link_offset"       value="${props['base_link_offset']}"/>
+    <xacro:property name="base_mass"              value="${props['base_link_mass']}"/>
+
+    <xacro:property name="wheel_radius"           value="${props['wheel_radius']}"/>
+    <xacro:property name="wheel_thickness"        value="${props['wheel_thickness']}"/>
+    <xacro:property name="wheel_offset_z"         value="${props['wheel_offset_z']}"/>
+    <xacro:property name="wheel_separation"       value="${props['wheel_separation']}"/>
+    <xacro:property name="wheel_mass"             value="${props['wheel_mass']}"/>
+
+    <xacro:property name="caster_wheel_mass"      value="${props['caster_wheel_mass']}"/>
+    <xacro:property name="caster_wheel_radius"    value="${props['caster_wheel_radius']}"/>
+    <xacro:property name="caster_offset_z"        value="${props['caster_offset_z']}"/>
+    <xacro:property name="caster_offset_y"        value="${props['caster_offset_y']}"/>
+
+</robot>
