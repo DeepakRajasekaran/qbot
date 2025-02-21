@@ -13,9 +13,9 @@ def generate_launch_description():
 
 	robot_description = ParameterValue(Command(['xacro ', urdf_path]), value_type=str)
 
-	rviz_config_file = PathJoinSubstitution(
-           [FindPackageShare("qbot_description"), "rviz", "udemy_robot.rviz"]
-   		)
+	# rviz_config_file = PathJoinSubstitution(
+    #        [FindPackageShare("qbot_description"), "rviz", "udemy_robot.rviz"]
+   	# 	)
 
 	robot_state_publisher_node = Node(
 		package="robot_state_publisher",
@@ -23,20 +23,20 @@ def generate_launch_description():
 		parameters=[{'robot_description': robot_description}]
 	)
 
-	joint_state_publisher_gui_node = Node(
-		package="joint_state_publisher_gui",
-		executable="joint_state_publisher_gui"
-	)
+	# joint_state_publisher_gui_node = Node(
+	# 	package="joint_state_publisher_gui",
+	# 	executable="joint_state_publisher_gui"
+	# )
 
-	rviz2_node = Node(
-		package="rviz2",
-		executable="rviz2",
-		name="rviz2",
-		arguments=["-d", rviz_config_file]
-	)
+	# rviz2_node = Node(
+	# 	package="rviz2",
+	# 	executable="rviz2",
+	# 	name="rviz2",
+	# 	arguments=["-d", rviz_config_file]
+	# )
 
 	return LaunchDescription([
-		robot_state_publisher_node,
-		joint_state_publisher_gui_node,
-		rviz2_node
-	])~
+		robot_state_publisher_node
+		# joint_state_publisher_gui_node,
+		# rviz2_node
+	])
