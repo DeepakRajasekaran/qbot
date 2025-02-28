@@ -21,5 +21,23 @@ caster_wheel_thickness: 0.02
 caster_offset_z: -0.062  # From Robot Center
 caster_offset_x: 0.07967 #Must be -ve if behind base_link
 
-lidar_box_mass: 0.050
-lidar_box_size: 0.05
+# Sensor dimensions
+
+lidar_mass: 0.050
+lidar_radius: 0.05
+lidar_height: 0.1
+lidar_offset_z: 0.08
+
+camera_mass: 0.050
+camera_length: 0.05
+camera_width: 0.05
+camera_height: 0.05
+camera_offset_z: 0.05
+camera_offset_x: 0.08
+
+imu_mass: 0.050
+imu_length: 0.05
+imu_width: 0.05
+imu_height: 0.05
+imu_offset_z: 0.03
+imu_offset_x: 0.05
