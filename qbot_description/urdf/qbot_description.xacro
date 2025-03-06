@@ -41,7 +41,7 @@
                 <geometry>
                     <cylinder radius="${wheel_radius}" length="${wheel_thickness}"/>
                 </geometry>
-                <material name="black"/>
+                <material name="gray"/>
             </visual>
             
             <collision>
@@ -92,7 +92,7 @@
             <geometry>
                 <cylinder radius="${lidar_radius}" length="${lidar_height}"/>
             </geometry>
-            <material name="blue"/>
+            <material name="black"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -100,12 +100,9 @@
                 <cylinder radius="${lidar_radius}" length="${lidar_height}"/>
             </geometry>
         </collision>
-        <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="${lidar_mass}"/>
-            <xacro:cylinder_inertia m="${lidar_mass}" r="${lidar_radius}" h="${lidar_height}" 
-                                    xyz="0 0 0" rpy="0 0 0" />
-        </inertial>
+        <xacro:cylinder_inertia m="${lidar_mass}" r="${lidar_radius}" h="${lidar_height}" 
+                                xyz="0 0 0" rpy="0 0 0" />
+
     </link>
 
     <link name="imu">
@@ -122,12 +119,8 @@
                 <box size="${imu_length} ${imu_width} ${imu_height}"/>
             </geometry>
         </collision>
-        <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="${imu_mass}"/>
-            <xacro:box_inertia m="${imu_mass}" l="${imu_length}" w="${imu_width}" h="${imu_height}" 
+        <xacro:box_inertia m="${imu_mass}" l="${imu_length}" w="${imu_width}" h="${imu_height}" 
                               xyz="0 0 0" rpy="0 0 0" />
-        </inertial>
     </link>
 
     <link name="camera">
@@ -136,7 +129,7 @@
             <geometry>
                 <box size="${camera_length} ${camera_width} ${camera_height}"/>
             </geometry>
-            <material name="gray"/>
+            <material name="black"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -144,12 +137,9 @@
                 <box size="${camera_length} ${camera_width} ${camera_height}"/>
             </geometry>
         </collision>
-        <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="${camera_mass}"/>
-            <xacro:box_inertia m="${camera_mass}" l="${camera_length}" w="${camera_width}" h="${camera_height}" 
-                               xyz="0 0 0" rpy="0 0 0" />
-        </inertial>
+        <xacro:box_inertia m="${camera_mass}" l="${camera_length}" w="${camera_width}" h="${camera_height}" 
+                            xyz="0 0 0" rpy="0 0 0" />
+
     </link>
 
 <!-- Joints -->
@@ -161,17 +151,17 @@
     </joint>
 
     <joint name="left_wheel_joint" type="continuous">
-        <origin rpy="${pi/2} 0 0" xyz="0 ${wheel_separation/2} ${-wheel_offset_z}"/>
+        <origin rpy="${pi/2} 0 0" xyz="0 ${-wheel_separation/2} ${-wheel_offset_z}"/>
         <parent link="base_link"/>
         <child link="left_wheel"/>
-        <axis xyz="0 0 1"/>
+        <axis xyz="0 0 -1"/>
     </joint>
 
     <joint name="right_wheel_joint" type="continuous">
-        <origin rpy="${pi/2} 0 0" xyz="0 ${-wheel_separation/2} ${-wheel_offset_z}"/>
+        <origin rpy="${pi/2} 0 0" xyz="0 ${wheel_separation/2} ${-wheel_offset_z}"/>
         <parent link="base_link"/>
         <child link="right_wheel"/>
-        <axis xyz="0 0 1"/>
+        <axis xyz="0 0 -1"/>
     </joint>
 
     <joint name="front_caster_joint" type="fixed">
@@ -187,19 +177,19 @@
     </joint>
 
     <!-- Sensor Joints -->
-    <joint name="lidar" type="fixed">
+    <joint name="lidar_joint" type="fixed">
         <origin rpy="0 0 0" xyz="0 0 ${lidar_offset_z}"/>
         <parent link="base_link"/>
         <child link="lidar"/>
     </joint>
 
-    <joint name="imu" type="fixed">
+    <joint name="imu_joint" type="fixed">
         <origin rpy="0 0 0" xyz="${imu_offset_x} 0 ${imu_offset_z}"/>
         <parent link="base_link"/>
         <child link="imu"/>
     </joint>
 
-    <joint name="camera" type="fixed">
+    <joint name="camera_joint" type="fixed">
         <origin rpy="0 0 0" xyz="${camera_offset_x} 0 ${camera_offset_z}"/>
         <parent link="base_link"/>
         <child link="camera"/>
