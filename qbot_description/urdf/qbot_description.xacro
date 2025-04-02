@@ -22,7 +22,6 @@
             <origin rpy="0 0 0" xyz="0 0 ${base_link_offset}"/>
             <geometry>
                 <mesh filename="package://qbot_description/meshes/qbot_base.stl" scale="1 1 1"/>
-                <!-- <mesh filename="$(find qbot_description)/meshes/qbot_base.stl" scale="1 1 1"/> -->
             </geometry>
             <material name="gray"/>            
         </visual>
@@ -37,19 +36,20 @@
 
     <xacro:macro name="wheel" params="prefix">
         <link name="${prefix}_wheel">
-            <visual>
+            <!-- <visual>
                 <origin rpy="0 0 0" xyz="0 0 0"/>
                 <geometry>
                     <cylinder radius="${wheel_radius}" length="${wheel_thickness}"/>
                 </geometry>
                 <material name="gray"/>
-            </visual>
+            </visual> -->
             
             <collision>
                 <origin rpy="0 0 0" xyz="0 0 0"/>
                 <geometry>
                     <cylinder radius="${wheel_radius}" length="${wheel_thickness}"/>
                 </geometry>
+                <material name="gray"/>
             </collision>
 
             <xacro:cylinder_inertia m="${wheel_mass}" r="${wheel_radius}" h="${wheel_thickness}" 
@@ -95,6 +95,13 @@
             </geometry>
             <material name="black"/>
         </visual>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 ${-lidar_height}"/>
+            <geometry>
+                <box size="${lidar_radius * 2.2} ${lidar_radius * 2.2} ${lidar_height}"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
@@ -103,7 +110,6 @@
         </collision>
         <xacro:cylinder_inertia m="${lidar_mass}" r="${lidar_radius}" h="${lidar_height}" 
                                 xyz="0 0 0" rpy="0 0 0" />
-
     </link>
 
     <link name="imu">
@@ -121,7 +127,7 @@
             </geometry>
         </collision>
         <xacro:box_inertia m="${imu_mass}" l="${imu_length}" w="${imu_width}" h="${imu_height}" 
-                              xyz="0 0 0" rpy="0 0 0" />
+                           xyz="0 0 0" rpy="0 0 0" />
     </link>
 
     <link name="camera">
