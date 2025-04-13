@@ -19,9 +19,9 @@
         </inertial>
 
         <visual>
-            <origin rpy="0 0 0" xyz="0 0 ${base_link_offset}"/>
+            <origin rpy="0 0 ${pi/2}" xyz="0 0 ${base_link_offset}"/>
             <geometry>
-                <mesh filename="package://qbot_description/meshes/qbot_base.stl" scale="1 1 1"/>
+                <mesh filename="package://qbot_description/meshes/qbot.obj" scale="1 1 1"/>
             </geometry>
             <material name="gray"/>            
         </visual>

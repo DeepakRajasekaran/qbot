@@ -69,6 +69,8 @@
         <!-- Gazebo Plugins -->
 
     <gazebo>
+        <!-- <plugin filename="gz-ros2-control-system" name="gz"> -->
+
         <plugin
             filename="gz-sim-diff-drive-system"
             name="gz::sim::systems::DiffDrive">
@@ -87,6 +89,8 @@
         <plugin
             filename="gz-sim-joint-state-publisher-system"
             name="gz::sim::systems::JointStatePublisher">
+            <left_joint>left_wheel_joint</left_joint>
+            <joint_name>right_wheel_joint</joint_name>
         </plugin>
 
         <plugin filename="gz-sim-imu-system"
