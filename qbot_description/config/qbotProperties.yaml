@@ -10,7 +10,7 @@ base_link_offset: -0.074
 
 wheel_mass: 0.033         # 33g
 wheel_radius: 0.034       # 6.8cm wheelDia
-wheel_offset_z: 0.039    # 6.4cm from base_link
+wheel_offset_z: -0.039    # 6.4cm from base_link
 wheel_thickness: 0.02     # 2cm 
 wheel_separation: 0.1934  # 19.34cm
 

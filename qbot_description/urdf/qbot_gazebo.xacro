@@ -3,74 +3,27 @@
 
         <!-- gazebo references -->
 
-    <gazebo reference="caster_wheel">
-        <mu1 value="0.1" /> 
-        <mu2 value="1" />
+    <gazebo reference="front_caster">
+        <mu1 value="0.1" />
+        <mu2 value="0.1" />
     </gazebo>
-    <gazebo reference="left_wheel">
+    <gazebo reference="rear_caster">
+        <mu1 value="0.1" />
+        <mu2 value="0.1" />
+    </gazebo>
+
+    <!-- <gazebo reference="left_wheel">
         <mu1 value="0.1" /> 
         <mu2 value="0.1" />
     </gazebo>
     <gazebo reference="right_wheel">
         <mu1 value="0.1" /> 
         <mu2 value="0.1" />
-    </gazebo>
-    <gazebo reference="imu">
-        <always_on>true</always_on>
-        <update_rate>100.0</update_rate>
-        <gz_frame_id>imu</gz_frame_id>
-        <topic>imu</topic>
-        <imu>
-            <angular_velocity>
-                <x>
-                    <noise type="gaussian">
-                        <mean>0.0</mean>
-                        <stddev>2e-4</stddev>
-                    </noise>
-                </x>
-                <y>
-                    <noise type="gaussian">
-                        <mean>0.0</mean>
-                        <stddev>2e-4</stddev>
-                    </noise>
-                </y>
-                <z>
-                    <noise type="gaussian">
-                        <mean>0.0</mean>
-                        <stddev>2e-4</stddev>
-                    </noise>
-                </z>
-            </angular_velocity>
-
-            <linear_acceleration>
-                <x>
-                    <noise type="gaussian">
-                        <mean>0.0</mean>
-                        <stddev>1.7e-2</stddev>
-                    </noise>
-                </x>
-                <y>
-                    <noise type="gaussian">
-                        <mean>0.0</mean>
-                        <stddev>1.7e-2</stddev>
-                    </noise>
-                </y>
-                <z>
-                    <noise type="gaussian">
-                        <mean>0.0</mean>
-                        <stddev>1.7e-2</stddev>
-                    </noise>
-                </z>
-            </linear_acceleration>
-        </imu>
-
-    </gazebo>
-
+    </gazebo> -->
+    
         <!-- Gazebo Plugins -->
 
     <gazebo>
-        <!-- <plugin filename="gz-ros2-control-system" name="gz"> -->
-
         <plugin
             filename="gz-sim-diff-drive-system"
             name="gz::sim::systems::DiffDrive">
@@ -85,19 +38,16 @@
             <max_angular_velocity>1</max_angular_velocity>
             <min_angular_velocity>-1</min_angular_velocity>
         </plugin>
+    </gazebo>
 
+     <gazebo>
         <plugin
             filename="gz-sim-joint-state-publisher-system"
             name="gz::sim::systems::JointStatePublisher">
-            <left_joint>left_wheel_joint</left_joint>
+            <joint_name>left_wheel_joint</joint_name>
             <joint_name>right_wheel_joint</joint_name>
         </plugin>
-
-        <plugin filename="gz-sim-imu-system"
-                name="gz::sim::systems::Imu">
-        </plugin>
-                
-
     </gazebo>
+                
 
 </robot>

@@ -19,13 +19,16 @@ def generate_launch_description():
                                   ]
                             )   
 
+    world_resource_path = str(Path(get_package_share_directory('qbot_simulator')).joinpath('worlds').resolve())
+
     gz_sim_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [get_package_share_directory('ros_gz_sim'), '/launch/gz_sim.launch.py']
         ),
-        launch_arguments=[(
-                         "gz_args", [" -v 4", " -r", " empty.sdf"]
-        )]
+        launch_arguments=[
+                          ("gz_args", [f"{world_resource_path}/warehouse.sdf -r"])
+                        # ("gz_args", ["empty.sdf -r"])
+        ]
     )
 
     ros_gz_sim_node = Node(
