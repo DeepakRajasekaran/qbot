@@ -5,12 +5,12 @@ base_length: 0.204
 base_width: 0.154
 base_height: 0.092
 base_link_offset: -0.074
-base_wheel_gap_z: 0.06
-base_collision: false
+# base_wheel_gap_z: 0.06
+# base_collision: false
 
 wheel_mass: 0.033         # 33g
 wheel_radius: 0.034       # 6.8cm wheelDia
-wheel_offset_z: 0.039    # 6.4cm from base_link
+wheel_offset_z: -0.039    # 6.4cm from base_link
 wheel_thickness: 0.02     # 2cm 
 wheel_separation: 0.1934  # 19.34cm
 
@@ -21,5 +21,23 @@ caster_wheel_thickness: 0.02
 caster_offset_z: -0.062  # From Robot Center
 caster_offset_x: 0.07967 #Must be -ve if behind base_link
 
-lidar_box_mass: 0.050
-lidar_box_size: 0.05
+# Sensor dimensions
+
+lidar_mass: 0.050
+lidar_radius: 0.03
+lidar_height: 0.02
+lidar_offset_z: 0.075
+
+camera_mass: 0.050
+camera_length: 0.02
+camera_width: 0.02
+camera_height: 0.02
+camera_offset_z: 0.055
+camera_offset_x: 0.09
+
+imu_mass: 0.050
+imu_length: 0.01
+imu_width: 0.01
+imu_height: 0.01
+imu_offset_z: 0.03
+imu_offset_x: 0.05

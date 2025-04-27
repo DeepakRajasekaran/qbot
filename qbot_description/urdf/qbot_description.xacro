@@ -3,6 +3,7 @@
 
     <xacro:include filename="common_properties.xacro"/>
     <xacro:include filename="qbot_properties.xacro"/>
+    <xacro:include filename="qbot_sensors.xacro"/>
     <xacro:include filename="qbot_gazebo.xacro"/>
 
     <link name="base_footprint"/>
@@ -11,19 +12,19 @@
 
         <!-- From CAD -->
         <inertial>
-            <!-- <origin xyz="1.7719586332633954E-6 1.751448244030529E-4 0.0466875772049434" rpy="0.0 -0.0 0.0"/> -->
+            <origin xyz="1.7719586332633954E-6 1.751448244030529E-4 0.0466875772049434" rpy="0 0 0"/>
             <mass value="1.3579939912816132"/>
             <inertia ixx="0.003930134422968899" ixy="4.165452750789473E-6" ixz="6.2059583704332395E-6" 
-                     iyy="0.004627442836321762" iyz="-2.140255948376241E-5" izz="0.0065795625959500755"/>
+                                                iyy="0.004627442836321762" iyz="-2.140255948376241E-5" 
+                                                                           izz="0.0065795625959500755"/>
         </inertial>
 
         <visual>
-            <origin rpy="0 0 0" xyz="0 0 ${base_link_offset}"/>
+            <origin rpy="0 0 ${pi/2}" xyz="0 0 ${base_link_offset}"/>
             <geometry>
-                <mesh filename="package://qbot_description/meshes/qbot_base.stl" scale="1 1 1"/>
-                <!-- <mesh filename="$(find qbot_description)/meshes/qbot_base.stl" scale="1 1 1"/> -->
+                <mesh filename="package://qbot_description/meshes/qbot.obj" scale="1 1 1"/>
             </geometry>
-            <material name="gray"/>            
+            <material name="black"/>            
         </visual>
 
         <collision>
@@ -37,22 +38,23 @@
     <xacro:macro name="wheel" params="prefix">
         <link name="${prefix}_wheel">
             <visual>
-                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <origin rpy="${pi/2} 0 0" xyz="0 0 0"/>
                 <geometry>
                     <cylinder radius="${wheel_radius}" length="${wheel_thickness}"/>
                 </geometry>
-                <material name="black"/>
+                <material name="gray"/>
             </visual>
             
             <collision>
                 <origin rpy="0 0 0" xyz="0 0 0"/>
                 <geometry>
-                    <cylinder radius="${wheel_radius}" length="${wheel_thickness}"/>
+                    <sphere radius="${wheel_radius}"/>
                 </geometry>
+                <material name="gray"/>
             </collision>
 
-            <xacro:wheel_inertia m="${wheel_mass}" r="${wheel_radius}" h="${wheel_thickness}" 
-                                 xyz="0 0 0" rpy="0 0 0" />
+            <xacro:sphere_inertia m="${wheel_mass}" r="${wheel_radius}" 
+                                  xyz="0 0 0" rpy="0 0 0" />
         </link>
     </xacro:macro>
 
@@ -66,7 +68,7 @@
                 <geometry>
                     <sphere radius="${caster_wheel_radius}"/>
                 </geometry>
-                <material name="red"/>
+                <material name="gray"/>
             </visual>
             
             <collision>
@@ -76,14 +78,15 @@
                 </geometry>
             </collision>
 
-            <xacro:caster_inertia m="${caster_wheel_mass}" r="${caster_wheel_radius}" 
+            <xacro:sphere_inertia m="${caster_wheel_mass}" r="${caster_wheel_radius}" 
                                   xyz="0 0 0" rpy="0 0 0"/>
-
         </link>
     </xacro:macro>
 
     <xacro:caster prefix="front"/>
     <xacro:caster prefix="rear"/>
+
+<!-- Joints -->
 
     <joint name="footprint_to_body" type="fixed">
         <parent link="base_footprint"/>
@@ -92,17 +95,17 @@
     </joint>
 
     <joint name="left_wheel_joint" type="continuous">
-        <origin rpy="${pi/2} 0 0" xyz="0 ${wheel_separation/2} ${-wheel_offset_z}"/>
+        <origin rpy="0 0 0" xyz="0 ${wheel_separation/2} ${wheel_offset_z}"/>
         <parent link="base_link"/>
         <child link="left_wheel"/>
-        <axis xyz="0 0 1"/>
+        <axis xyz="0 1 0"/>
     </joint>
 
     <joint name="right_wheel_joint" type="continuous">
-        <origin rpy="${pi/2} 0 0" xyz="0 ${-wheel_separation/2} ${-wheel_offset_z}"/>
+        <origin rpy="0 0 0" xyz="0 ${-wheel_separation/2} ${wheel_offset_z}"/>
         <parent link="base_link"/>
         <child link="right_wheel"/>
-        <axis xyz="0 0 1"/>
+        <axis xyz="0 1 0"/>
     </joint>
 
     <joint name="front_caster_joint" type="fixed">

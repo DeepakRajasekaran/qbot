@@ -20,7 +20,7 @@
     </material>
 
     <material name="black">
-        <color rgba="0.1 0.1 0.1 1"/>
+        <color rgba="0.05 0.05 0.05 1"/>
     </material>
 
     <!-- general inertia tags -->
@@ -35,7 +35,7 @@
         </inertial>
     </xacro:macro>
 
-    <xacro:macro name="wheel_inertia" params="m r h xyz rpy">
+    <xacro:macro name="cylinder_inertia" params="m r h xyz rpy">
         <inertial>
             <origin xyz="${xyz}" rpy="${rpy}"/>
             <mass value="${m}"/>
@@ -45,7 +45,7 @@
         </inertial>
     </xacro:macro>
 
-    <xacro:macro name="caster_inertia" params="m r xyz rpy">
+    <xacro:macro name="sphere_inertia" params="m r xyz rpy">
         <inertial>
             <origin xyz="${xyz}" rpy="${rpy}"/>
             <mass value="${m}"/>

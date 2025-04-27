@@ -1,0 +1,270 @@
+#VRML_SIM R2025a utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# This is a proto file for Webots for the Qbot
+# Extracted from: /jazzy_ws/workspaces/Qbot_ws/src/qbot_description/urdf/qbot.urdf
+
+PROTO Qbot [
+  field  SFVec3f     translation     0 0 0
+  field  SFRotation  rotation        0 0 1 0
+  field  SFString    name            "Qbot"  # Is `Robot.name`.
+  field  SFString    controller      "void"  # Is `Robot.controller`.
+  field  MFString    controllerArgs  []      # Is `Robot.controllerArgs`.
+  field  SFString    customData      ""      # Is `Robot.customData`.
+  field  SFBool      supervisor      FALSE   # Is `Robot.supervisor`.
+  field  SFBool      synchronization TRUE    # Is `Robot.synchronization`.
+  field  SFBool      selfCollision   FALSE   # Is `Robot.selfCollision`.
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    selfCollision IS selfCollision
+    children [
+      Solid {
+        translation 0.000000 0.000000 0.074000
+        children [
+          Pose {
+            translation 0.000000 0.000000 -0.074000
+            rotation 0.000000 0.000000 1.000000 1.570796
+            children [
+              DEF qbot_visual CadShape {
+                url "/home/username/jazzy_ws/workspaces/Qbot_ws/src/qbot_description/meshes/qbot.obj"
+              }
+            ]
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0.000000 1.000000 -0.000000
+              anchor 0.000000 -0.096700 -0.039000
+            }
+            device [
+              RotationalMotor {
+                name "left_wheel_joint"
+                maxTorque 10000
+              }
+              PositionSensor {
+                name "left_wheel_joint_sensor"
+              }
+            ]
+            endPoint Solid {
+              translation 0.000000 -0.096700 -0.039000
+              rotation 1.000000 0.000000 0.000000 1.570796
+              name "left_wheel"
+              boundingObject Cylinder {
+                radius 0.034
+                height 0.02
+              }
+              physics Physics {
+                density -1
+                mass 0.033000
+                centerOfMass [ 0.000000 0.000000 0.000000 ]
+                inertiaMatrix [
+                  1.063700e-05 1.063700e-05 1.907400e-05
+                  0.000000e+00 0.000000e+00 0.000000e+00
+                ]
+              }
+            }
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0.000000 1.000000 -0.000000
+              anchor 0.000000 0.096700 -0.039000
+            }
+            device [
+              RotationalMotor {
+                name "right_wheel_joint"
+                maxTorque 10000
+              }
+              PositionSensor {
+                name "right_wheel_joint_sensor"
+              }
+            ]
+            endPoint Solid {
+              translation 0.000000 0.096700 -0.039000
+              rotation 1.000000 0.000000 0.000000 1.570796
+              name "right_wheel"
+              boundingObject Cylinder {
+                radius 0.034
+                height 0.02
+              }
+              physics Physics {
+                density -1
+                mass 0.033000
+                centerOfMass [ 0.000000 0.000000 0.000000 ]
+                inertiaMatrix [
+                  1.063700e-05 1.063700e-05 1.907400e-05
+                  0.000000e+00 0.000000e+00 0.000000e+00
+                ]
+              }
+            }
+          }
+          Solid {
+            translation 0.079670 0.000000 -0.062000
+            children [
+              Shape {
+                appearance DEF gray PBRAppearance {
+                  baseColor 0.500000 0.500000 0.500000
+                  roughness 1.000000
+                  metalness 0
+                }
+                geometry Sphere {
+                  radius 0.0105
+                }
+              }
+            ]
+            name "front_caster"
+            boundingObject Sphere {
+              radius 0.0105
+            }
+            physics Physics {
+              density -1
+              mass 0.040000
+              centerOfMass [ 0.000000 0.000000 0.000000 ]
+              inertiaMatrix [
+                1.764000e-06 1.764000e-06 1.764000e-06
+                0.000000e+00 0.000000e+00 0.000000e+00
+              ]
+            }
+          }
+          Solid {
+            translation -0.079670 0.000000 -0.062000
+            children [
+              Shape {
+                appearance USE gray
+                geometry Sphere {
+                  radius 0.0105
+                }
+              }
+            ]
+            name "rear_caster"
+            boundingObject Sphere {
+              radius 0.0105
+            }
+            physics Physics {
+              density -1
+              mass 0.040000
+              centerOfMass [ 0.000000 0.000000 0.000000 ]
+              inertiaMatrix [
+                1.764000e-06 1.764000e-06 1.764000e-06
+                0.000000e+00 0.000000e+00 0.000000e+00
+              ]
+            }
+          }
+          Solid {
+            translation 0.000000 0.000000 0.075000
+            children [
+              Shape {
+                appearance DEF black PBRAppearance {
+                  baseColor 0.500000 0.500000 0.500000
+                  roughness 1.000000
+                  metalness 0
+                }
+                geometry Cylinder {
+                  radius 0.03
+                  height 0.02
+                }
+              }
+              Pose {
+                translation 0.000000 0.000000 -0.020000
+                children [
+                  Shape {
+                    appearance USE black
+                    geometry Box {
+                       size 0.066000 0.066000 0.020000
+                    }
+                  }
+                ]
+              }
+            ]
+            name "lidar"
+            boundingObject Cylinder {
+              radius 0.03
+              height 0.02
+            }
+            physics Physics {
+              density -1
+              mass 0.050000
+              centerOfMass [ 0.000000 0.000000 0.000000 ]
+              inertiaMatrix [
+                1.291667e-05 1.291667e-05 2.250000e-05
+                0.000000e+00 0.000000e+00 0.000000e+00
+              ]
+            }
+          }
+          Solid {
+            translation 0.050000 0.000000 0.030000
+            children [
+              Shape {
+                appearance DEF green PBRAppearance {
+                  baseColor 0.500000 0.500000 0.500000
+                  roughness 1.000000
+                  metalness 0
+                }
+                geometry Box {
+                   size 0.010000 0.010000 0.010000
+                }
+              }
+            ]
+            name "imu"
+            boundingObject Box {
+               size 0.010000 0.010000 0.010000
+            }
+            physics Physics {
+              density -1
+              mass 0.050000
+              centerOfMass [ 0.000000 0.000000 0.000000 ]
+              inertiaMatrix [
+                8.333333e-07 8.333333e-07 8.333333e-07
+                0.000000e+00 0.000000e+00 0.000000e+00
+              ]
+            }
+          }
+          Solid {
+            translation 0.090000 0.000000 0.055000
+            children [
+              Shape {
+                appearance USE black
+                geometry Box {
+                   size 0.020000 0.020000 0.020000
+                }
+              }
+            ]
+            name "camera"
+            boundingObject Box {
+               size 0.020000 0.020000 0.020000
+            }
+            physics Physics {
+              density -1
+              mass 0.050000
+              centerOfMass [ 0.000000 0.000000 0.000000 ]
+              inertiaMatrix [
+                3.333333e-06 3.333333e-06 3.333333e-06
+                0.000000e+00 0.000000e+00 0.000000e+00
+              ]
+            }
+          }
+        ]
+        name "base_link"
+        boundingObject Box {
+           size 0.204000 0.154000 0.092000
+        }
+        physics Physics {
+          density -1
+          mass 1.357994
+          centerOfMass [ 0.000000 0.000000 0.000000 ]
+          inertiaMatrix [
+            3.930134e-03 4.627443e-03 6.579563e-03
+            4.165453e-06 6.205958e-06 -2.140256e-05
+          ]
+        }
+      }
+    ]
+    name IS name
+  }
+}
