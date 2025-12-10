@@ -8,7 +8,7 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(ros2launch REQUIRED)
+# find_package(ros2launch REQUIRED)
 find_package(controller_manager REQUIRED)
 find_package(geometry_msgs REQUIRED)
 

@@ -120,5 +120,44 @@
         </sensor>
     </gazebo>
 
+    <gazebo reference="lidar">
+    <sensor name="lidar_sensor" type="gpu_lidar">
+        <update_rate>10</update_rate>
+        <topic>scan</topic>
+
+        <lidar>
+        <scan>
+            <horizontal>
+            <samples>720</samples>
+            <min_angle>-3.14159</min_angle>
+            <max_angle>3.14159</max_angle>
+            </horizontal>
+        </scan>
+        <range>
+            <min>0.05</min>
+            <max>20.0</max>
+        </range>
+        </lidar>
+
+        <plugin
+        filename="gz-sim-lidar-system"
+        name="gz::sim::systems::Lidar">
+        </plugin>
+    </sensor>
+    </gazebo>
+
+
+    <gazebo reference="imu">
+    <sensor name="imu_sensor" type="imu">
+        <update_rate>100</update_rate>
+        <always_on>true</always_on>
+
+        <plugin
+        filename="gz-sim-imu-system"
+        name="gz::sim::systems::Imu">
+        </plugin>
+    </sensor>
+    </gazebo>
+
 
     </robot>
