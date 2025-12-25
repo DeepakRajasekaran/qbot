@@ -121,41 +121,75 @@
     </gazebo>
 
     <gazebo reference="lidar">
-    <sensor name="lidar_sensor" type="gpu_lidar">
-        <update_rate>10</update_rate>
-        <topic>scan</topic>
-
-        <lidar>
-        <scan>
-            <horizontal>
-            <samples>720</samples>
-            <min_angle>-3.14159</min_angle>
-            <max_angle>3.14159</max_angle>
-            </horizontal>
-        </scan>
-        <range>
-            <min>0.05</min>
-            <max>20.0</max>
-        </range>
-        </lidar>
-
-        <plugin
-        filename="gz-sim-lidar-system"
-        name="gz::sim::systems::Lidar">
-        </plugin>
-    </sensor>
+        <sensor name="lidar" type="gpu_lidar">
+            <update_rate>10</update_rate>
+            <!-- <frame_id>lidar</frame_id> -->
+            <topic>scan</topic>
+            <lidar>
+            <scan>
+                <horizontal>
+                <samples>720</samples>
+                <min_angle>-3.14159</min_angle>
+                <max_angle>3.14159</max_angle>
+                </horizontal>
+            </scan>
+            <range>
+                <min>0.05</min>
+                <max>20.0</max>
+            </range>
+            </lidar>
+        </sensor>
     </gazebo>
 
-
     <gazebo reference="imu">
-    <sensor name="imu_sensor" type="imu">
-        <update_rate>100</update_rate>
+    <sensor name="imu" type="imu">
         <always_on>true</always_on>
+        <update_rate>100</update_rate>
 
-        <plugin
-        filename="gz-sim-imu-system"
-        name="gz::sim::systems::Imu">
-        </plugin>
+        <imu>
+        <angular_velocity>
+            <x>
+            <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.0002</stddev>
+            </noise>
+            </x>
+            <y>
+            <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.0002</stddev>
+            </noise>
+            </y>
+            <z>
+            <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.0002</stddev>
+            </noise>
+            </z>
+        </angular_velocity>
+
+        <linear_acceleration>
+            <x>
+            <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.0004</stddev>
+            </noise>
+            </x>
+            <y>
+            <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.0004</stddev>
+            </noise>
+            </y>
+            <z>
+            <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.0004</stddev>
+            </noise>
+            </z>
+        </linear_acceleration>
+        </imu>
+
     </sensor>
     </gazebo>
 
