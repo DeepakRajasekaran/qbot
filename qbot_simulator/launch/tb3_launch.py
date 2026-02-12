@@ -7,7 +7,6 @@ from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 
-
 def generate_launch_description():
     launch_file_dir = os.path.join(get_package_share_directory('qbot_simulator'), 'launch')
     ros_gz_sim = get_package_share_directory('ros_gz_sim')
