@@ -39,9 +39,9 @@ imu_mass: 0.050
 imu_length: 0.01
 imu_width: 0.01
 imu_height: 0.01
-imu_offset_x: 0.05
+imu_offset_x: 0.034
 imu_offset_y: 0.0
-imu_offset_z: 0.03
+imu_offset_z: -0.025
 imu_offset_pitch: 0.0
 imu_offset_roll: 3.14
 imu_offset_yaw: 0.0
