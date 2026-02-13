@@ -30,8 +30,12 @@
     <xacro:property name="imu_width"              value="${props['imu_width']}"/>
     <xacro:property name="imu_height"             value="${props['imu_height']}"/>
     <xacro:property name="imu_mass"               value="${props['imu_mass']}"/>
-    <xacro:property name="imu_offset_z"           value="${props['imu_offset_z']}"/>
     <xacro:property name="imu_offset_x"           value="${props['imu_offset_x']}"/>
+    <xacro:property name="imu_offset_y"           value="${props['imu_offset_y']}"/>
+    <xacro:property name="imu_offset_z"           value="${props['imu_offset_z']}"/>
+    <xacro:property name="imu_offset_pitch"       value="${props['imu_offset_pitch']}"/>
+    <xacro:property name="imu_offset_roll"        value="${props['imu_offset_roll']}"/>
+    <xacro:property name="imu_offset_yaw"         value="${props['imu_offset_yaw']}"/>
 
     <xacro:property name="lidar_height"           value="${props['lidar_height']}"/>
     <xacro:property name="lidar_radius"           value="${props['lidar_radius']}"/>

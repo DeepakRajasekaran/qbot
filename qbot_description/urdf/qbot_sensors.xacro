@@ -75,7 +75,7 @@
     </joint>
 
     <joint name="imu_joint" type="fixed">
-        <origin rpy="0 0 0" xyz="${imu_offset_x} 0 ${imu_offset_z}"/>
+        <origin rpy="${imu_offset_roll} ${imu_offset_pitch} ${imu_offset_yaw}" xyz="${imu_offset_x} ${imu_offset_y} ${imu_offset_z}"/>
         <parent link="base_link"/>
         <child link="imu"/>
     </joint>
