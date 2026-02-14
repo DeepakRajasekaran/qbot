@@ -19,7 +19,6 @@
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "nav_msgs/msg/odometry.hpp"
-#include "sensor_msgs/msg/imu.hpp"
 #include "tf2_ros/transform_broadcaster.h"
 #include "geometry_msgs/msg/transform_stamped.hpp"
 
@@ -68,6 +67,11 @@ private:
   void parseLine(const std::string & line);
 
   /**
+   * @brief Callback to reset the mode to VELOCITY after a stop delay.
+   */
+  void resetModeCallback();
+
+  /**
    * @brief Publishes odometry data.
    * @param x X position.
    * @param y Y position.
@@ -75,30 +79,18 @@ private:
    */
   void publishOdom(float x, float y, float theta);
 
-  /**
-   * @brief Publishes IMU data.
-   * @param ax Accelerometer X.
-   * @param ay Accelerometer Y.
-   * @param az Accelerometer Z.
-   * @param gx Gyroscope X.
-   * @param gy Gyroscope Y.
-   * @param gz Gyroscope Z.
-   */
-  void publishImu(int ax, int ay, int az, int gx, int gy, int gz);
-
   std::string m_serialPort;
   int m_baudRate;
   std::string m_frameId;
   std::string m_childFrameId;
-  std::string m_imuFrameId;
 
   int m_serialFd = -1;
   std::string m_serialBuffer;
 
   rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr m_p_odomPub;
-  rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr m_p_imuPub;
   rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr m_p_cmdVelSub;
   rclcpp::TimerBase::SharedPtr m_p_timer;
+  rclcpp::TimerBase::SharedPtr m_modeResetTimer;
   std::unique_ptr<tf2_ros::TransformBroadcaster> m_tfBroadcaster;
 
   // Odometry calculation state
@@ -109,12 +101,6 @@ private:
   double m_lastVx = 0.0;
   double m_lastVy = 0.0;
   double m_lastVth = 0.0;
-
-  // IMU Filter state
-  rclcpp::Time m_lastImuTime;
-  double m_imuRoll = 0.0;
-  double m_imuPitch = 0.0;
-  double m_imuYaw = 0.0;
 };
 
 }  // namespace qbot_controller
