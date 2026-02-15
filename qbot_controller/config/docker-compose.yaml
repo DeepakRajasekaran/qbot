@@ -1,0 +1,36 @@
+services:
+  qbot_container:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: qbot_container
+    privileged: true
+    network_mode: host
+    init: true
+    restart: unless-stopped
+
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - XAUTHORITY=/tmp/.docker.xauth
+
+    volumes:
+      - ./:/home/ubuntu/jazzy_ws:rw
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /tmp/.docker.xauth:/tmp/.docker.xauth
+
+    working_dir: /home/ubuntu/jazzy_ws
+
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+      - /dev/input/js0:/dev/input/js0
+
+    group_add:
+      - dialout
+
+    command: >
+      /bin/bash -c "source /opt/ros/jazzy/setup.bash &&
+      colcon build --symlink-install &&
+      source install/setup.bash &&
+      ros2 launch qbot_controller joystick_teleop.launch.py"
