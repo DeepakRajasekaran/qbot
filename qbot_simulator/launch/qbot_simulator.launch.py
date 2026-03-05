@@ -1,14 +1,16 @@
 from launch import LaunchDescription
 from pathlib import Path
+import os
 
 from launch_ros.actions import Node
 from launch.actions import (
     IncludeLaunchDescription,
     AppendEnvironmentVariable,
-    TimerAction
+    TimerAction,
+    LogInfo
 )
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from ament_index_python.packages import get_package_share_directory
+from ament_index_python.packages import get_package_share_directory, PackageNotFoundError
 
 
 def generate_launch_description():
@@ -26,20 +28,33 @@ def generate_launch_description():
     )
 
     # -------------------------------
-    # Gazebo resource path (PATCHED)
+    # Gazebo resource path
     # -------------------------------
+    qbot_sim_pkg = get_package_share_directory('qbot_simulator')
+    qbot_desc_pkg = get_package_share_directory('qbot_description')
+    qbot_desc_model_path = str(Path(qbot_desc_pkg).parent.resolve())
+
     gazebo_resource_path = AppendEnvironmentVariable(
         name='GZ_SIM_RESOURCE_PATH',
-        value=str(
-            Path(get_package_share_directory('qbot_description')).parent.resolve()
-        )
+        value=os.path.join(qbot_sim_pkg, 'models') + os.pathsep + qbot_desc_model_path
     )
+
+    # Add turtlebot3_gazebo models to the resource path if available
+    try:
+        tb3_models_path = os.path.join(
+            get_package_share_directory('turtlebot3_gazebo'), 'models')
+        tb3_resource_path = AppendEnvironmentVariable(
+            name='GZ_SIM_RESOURCE_PATH',
+            value=tb3_models_path
+        )
+    except PackageNotFoundError:
+        tb3_resource_path = None
 
     # -------------------------------
     # Gazebo world
     # -------------------------------
     world_path = str(
-        Path(get_package_share_directory('qbot_simulator'))
+        Path(qbot_sim_pkg)
         .joinpath('worlds', 'turtlebot3_world.world')
         .resolve()
     )
@@ -111,13 +126,31 @@ def generate_launch_description():
                     {'imu_frame_id': 'imu'}],
     )
 
+    # -------------------------------
+    # 3D Lidar Frame Fix
+    # -------------------------------
+    # Bridge the Gazebo-generated frame to the ROS URDF frame
+    lidar_tf_fix = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='lidar_tf_fix',
+        arguments=['0', '0', '0', '0', '0', '0', 'lidar', 'qbot/base_footprint/lidar']
+    )
 
-    return LaunchDescription([
+    ld = LaunchDescription([
         gazebo_resource_path,
         qbot_description_launch,
         gz_sim_launch,
         gz_sim_gui,
         delayed_spawn,
         ros_gz_bridge_node,
-        scan_frame_republisher_node
+        scan_frame_republisher_node,
+        lidar_tf_fix
     ])
+
+    if tb3_resource_path:
+        ld.add_action(tb3_resource_path)
+    else:
+        ld.add_action(LogInfo(msg='WARNING: turtlebot3_gazebo not found. "turtlebot3_world" model may be missing.'))
+
+    return ld

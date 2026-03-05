@@ -120,10 +120,11 @@
         </sensor>
     </gazebo>
 
-    <gazebo reference="lidar">
+    <!-- 2D Lidar -->
+    <!-- <gazebo reference="lidar">
         <sensor name="lidar" type="gpu_lidar">
             <update_rate>10</update_rate>
-            <!-- <frame_id>lidar</frame_id> -->
+            <frame_id>lidar</frame_id>
             <topic>scan</topic>
             <lidar>
             <scan>
@@ -138,6 +139,36 @@
                 <max>20.0</max>
             </range>
             </lidar>
+        </sensor>
+    </gazebo> -->
+
+    <!-- 3D Lidar (Livox Mid-360) -->
+    <gazebo reference="lidar">
+        <sensor name="lidar" type="gpu_lidar">
+            <update_rate>10</update_rate>
+            <topic>/lidar</topic>
+            <lidar>
+                <scan>
+                    <horizontal>
+                        <samples>360</samples>
+                        <resolution>1</resolution>
+                        <min_angle>${-pi}</min_angle>
+                        <max_angle>${pi}</max_angle>
+                    </horizontal>
+                    <vertical>
+                        <samples>32</samples>
+                        <resolution>1</resolution>
+                        <min_angle>-0.122</min_angle> <!-- -7 deg -->
+                        <max_angle>0.907</max_angle>  <!-- 52 deg -->
+                    </vertical>
+                </scan>
+                <range>
+                    <min>0.1</min>
+                    <max>40.0</max>
+                    <resolution>0.01</resolution>
+                </range>
+            </lidar>
+            <visualize>true</visualize>
         </sensor>
     </gazebo>
 
