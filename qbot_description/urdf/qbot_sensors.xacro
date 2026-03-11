@@ -65,8 +65,6 @@
 
     </link>
 
-    <link name="camera_optical" />
-
     <!-- Sensor Joints -->
     <joint name="lidar_joint" type="fixed">
         <origin rpy="0 0 0" xyz="0 0 ${lidar_offset_z}"/>
@@ -86,14 +84,16 @@
         <child link="camera"/>
     </joint>
     
+    <link name="camera_optical_link"></link>
     <joint name="camera_optical_joint" type="fixed">
-        <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
         <parent link="camera"/>
-        <child link="camera_optical"/>
+        <child link="camera_optical_link"/>
+        <origin xyz="0 0 0" rpy="-1.5707963267948966 0 -1.5707963267948966"/>
     </joint>
 
     <gazebo reference="camera">
-        <sensor name="camera" type="camera">
+        <!-- Monocular Camera (Disabled) -->
+        <!-- <sensor name="camera" type="camera">
             <camera>
                 <horizontal_fov>1.3962634</horizontal_fov>
                 <image>
@@ -117,6 +117,28 @@
             <update_rate>20</update_rate>
             <visualize>true</visualize>
             <topic>camera/image_raw</topic>            
+        </sensor> -->
+
+        <!-- RGB-D Camera -->
+        <sensor name="camera" type="rgbd_camera">
+            <always_on>1</always_on>
+            <update_rate>20</update_rate>
+            <visualize>true</visualize>
+            <topic>camera</topic>
+            
+            <camera>
+                <horizontal_fov>1.3962634</horizontal_fov>
+                <image>
+                    <width>640</width>
+                    <height>480</height>
+                </image>
+                <clip>
+                    <near>0.1</near>
+                    <far>15.0</far>
+                </clip>
+                <frame_id>camera</frame_id>
+                <!-- <optical_frame_id>camera</optical_frame_id> -->
+            </camera>
         </sensor>
     </gazebo>
 
@@ -150,13 +172,13 @@
             <lidar>
                 <scan>
                     <horizontal>
-                        <samples>360</samples>
+                        <samples>720</samples>
                         <resolution>1</resolution>
                         <min_angle>${-pi}</min_angle>
                         <max_angle>${pi}</max_angle>
                     </horizontal>
                     <vertical>
-                        <samples>32</samples>
+                        <samples>128</samples>
                         <resolution>1</resolution>
                         <min_angle>-0.122</min_angle> <!-- -7 deg -->
                         <max_angle>0.907</max_angle>  <!-- 52 deg -->

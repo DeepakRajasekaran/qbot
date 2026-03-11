@@ -24,7 +24,8 @@ def generate_launch_description():
                 get_package_share_directory('qbot_description'),
                 '/launch/qbot_description.launch.py'
             ]
-        )
+        ),
+        launch_arguments={'use_sim_time': 'true'}.items()
     )
 
     # -------------------------------
@@ -40,24 +41,25 @@ def generate_launch_description():
     )
 
     # Add turtlebot3_gazebo models to the resource path if available
+    # And determine which world file to use
     try:
-        tb3_models_path = os.path.join(
-            get_package_share_directory('turtlebot3_gazebo'), 'models')
+        tb3_pkg = get_package_share_directory('turtlebot3_gazebo')
+        tb3_models_path = os.path.join(tb3_pkg, 'models')
         tb3_resource_path = AppendEnvironmentVariable(
             name='GZ_SIM_RESOURCE_PATH',
             value=tb3_models_path
         )
+        # Use the official world file if available
+        world_path = os.path.join(tb3_pkg, 'worlds', 'turtlebot3_world.world')
+        if not os.path.exists(world_path):
+            raise FileNotFoundError("World file not found in turtlebot3_gazebo")
+            
     except PackageNotFoundError:
         tb3_resource_path = None
-
-    # -------------------------------
-    # Gazebo world
-    # -------------------------------
-    world_path = str(
-        Path(qbot_sim_pkg)
-        .joinpath('worlds', 'turtlebot3_world.world')
-        .resolve()
-    )
+        # Fallback to local world (likely empty/safe version)
+        world_path = os.path.join(qbot_sim_pkg, 'worlds', 'turtlebot3_world.world')
+    except FileNotFoundError:
+        world_path = os.path.join(qbot_sim_pkg, 'worlds', 'turtlebot3_world.world')
 
     gz_sim_launch = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
@@ -127,15 +129,50 @@ def generate_launch_description():
     )
 
     # -------------------------------
-    # 3D Lidar Frame Fix
+    # Base Frame Fix
     # -------------------------------
-    # Bridge the Gazebo-generated frame to the ROS URDF frame
-    lidar_tf_fix = Node(
+    # Bridge the Gazebo-generated 'qbot/base_footprint' (from odom) to ROS 'base_footprint'
+    base_frame_fix = Node(
         package='tf2_ros',
         executable='static_transform_publisher',
-        name='lidar_tf_fix',
+        name='base_frame_fix',
+        arguments=['0', '0', '0', '0', '0', '0', 'qbot/base_footprint', 'base_footprint']
+    )
+    
+    # -------------------------------
+    # Camera Points Frame Fix
+    # -------------------------------
+    # Links the physical ROS 'camera' frame to the internal Gazebo frame used for raw points
+    camera_points_tf_fix = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='camera_points_tf_fix',
+        arguments=['0', '0', '0', '0', '0', '0', 'camera', 'qbot/base_footprint/camera']
+    )
+
+    # -------------------------------
+    # Lidar Points Frame Fix
+    # -------------------------------
+    # Links the physical ROS 'lidar' frame to the internal Gazebo frame used for raw points
+    lidar_points_tf_fix = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='lidar_points_tf_fix',
         arguments=['0', '0', '0', '0', '0', '0', 'lidar', 'qbot/base_footprint/lidar']
     )
+
+
+    # -------------------------------
+    # Camera Frame Fix
+    # -------------------------------
+    # This node patches the frame_id on image topics for RTAB-Map
+    camera_patcher_node = Node(
+        package='qbot_simulator',
+        executable='camera_patcher_node',
+        name='camera_patcher',
+        output='screen'
+    )
+
 
     ld = LaunchDescription([
         gazebo_resource_path,
@@ -145,12 +182,15 @@ def generate_launch_description():
         delayed_spawn,
         ros_gz_bridge_node,
         scan_frame_republisher_node,
-        lidar_tf_fix
+        base_frame_fix,
+        lidar_points_tf_fix,
+        camera_points_tf_fix,
+        camera_patcher_node
     ])
 
     if tb3_resource_path:
         ld.add_action(tb3_resource_path)
     else:
-        ld.add_action(LogInfo(msg='WARNING: turtlebot3_gazebo not found. "turtlebot3_world" model may be missing.'))
+        ld.add_action(LogInfo(msg='WARNING: turtlebot3_gazebo not found. Using fallback world. To install: sudo dnf install ros-jazzy-turtlebot3-gazebo'))
 
     return ld

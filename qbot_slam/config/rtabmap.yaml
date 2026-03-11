@@ -1,0 +1,25 @@
+rtabmap:
+  ros__parameters:
+    frame_id: "base_footprint"
+    subscribe_scan: false
+    approx_sync: true
+    queue_size: 20
+
+    # RTAB-Map Internal Parameters
+    Mem/IncrementalMemory: "true"
+    Mem/InitWMWithAllNodes: "true"
+
+    # Tuning for Depth Camera Mapping
+    Grid/DepthMax: "3.5" # Ignore points farther than 3.5 meters
+    Grid/RayTracing: "true" # Clear empty space to fix ghosting
+    Grid/FromDepth: "true" # Generate 2D grid from depth camera
+    Grid/NoiseFilteringRadius: "0.05" # Filter out floor noise/speckles
+    Grid/NoiseFilteringMinNeighbors: "2"
+    Reg/Force3DoF: "true" # Force 2D constraints (prevents floor tilt)
+    Reg/Strategy: "2" # 0=Visual, 1=ICP, 2=Visual+ICP. Use both for best results.
+
+    # Odometry Drift Correction / Scan Matching
+    RGBD/NeighborLinkRefining: "true" # Perform scan matching against local map
+    RGBD/AngularUpdate: "0.05" # Only update map when moving (reduces blur)
+    RGBD/LinearUpdate: "0.05"
+    RGBD/ProximityBySpace: "true" # Enable proximity detection for loop closures

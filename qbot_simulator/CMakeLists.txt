@@ -22,8 +22,13 @@ ament_target_dependencies(
   sensor_msgs
 )
 
+add_executable(camera_patcher_node src/camera_patcher_node.cpp)
+ament_target_dependencies(camera_patcher_node rclcpp sensor_msgs)
+
+
 install(TARGETS
   sensor_frame_fix
+  camera_patcher_node
   DESTINATION lib/${PROJECT_NAME}
 )
 

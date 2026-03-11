@@ -1,0 +1,2 @@
+slam_mode: "3d"
+slam_method: "fused" # Options: 'depth', 'scan_cloud', 'fused'
